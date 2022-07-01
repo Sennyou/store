@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.store.Mapper.UserMapper">
+    <insert id="insert">
+            insert into user(username,password,salt,phone,emial,gender,avatar,is_delete,
+                             created_user,created_time,modified_user,modified_time
+    )values(#{username},#{password},#{salt},#{phone},#{emial},#{gender},#{avatar},#{is_delete},
+                             #{created_user},#{created_time},#{modified_user},#{modified_time})
+    </insert>
+
+    <select id="findUserByUsername" resultType="com.liu.store.entity.User">
+        select * from user where username = #{username}
+    </select>
+    <update id="changePasswordByUid">
+        update user set password = #{newPassword} , modified_user = #{modifiedUser} ,
+                        modified_time = #{modifiedTime} where uid = #{uid}
+    </update>
+
+    <select id="findUserByUid" resultType="com.liu.store.entity.User">
+        select * from user where uid = #{uid}
+    </select>
+    <update id="updateUserInfo">
+        update user set
+        <if test="emial!=null">emial = #{emial},</if>
+        <if test="phone!=null">phone = #{phone} , </if>
+        <if test="gender!=null"> gender = #{gender},</if>
+        modified_user = #{modified_user} ,
+        modified_time = #{modified_time} where uid = #{uid}
+    </update>
+
+    <update id="updateUserAvatar">
+        update user set avatar = #{param2}, modified_user=#{param3},
+                        modified_time = #{param4} where uid = #{param1}
+    </update>
+</mapper>

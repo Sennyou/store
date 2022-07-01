@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/login.css">
+    <script src="jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<div class="window">
+    <div>
+        <h3>
+            用户登录
+        </h3>
+        <form id="form-login">
+            <div class="input">
+                <input type="text" name="username" placeholder="用户名">
+            </div>
+            <div class="input">
+                <input type="password" name="password" placeholder="密码">
+            </div>
+            <div class="button">
+                <input type="button" class="button" value="登录">
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+    $(".button input").click(function () {
+        $.ajax({
+            url: '/user/login',
+            type: 'POST',
+            data: $("#form-login").serialize(),
+            //dataType: "json",
+            success: function (json) {
+                let jsonResult;
+                if (json.state == 200) {
+                    alert("登录成功!" + json.data);
+                    location.href = "index.html";
+                } else {
+                    //jsonResult = jQuery.parseJSON(json); 在定义dataType="json"后,就不需要这个了
+                    //其实本身也不需要,他自动识别类型
+                    alert("登录失败! state:" + json.state + "  message=" + json.message);
+                }
+            },//当失败时,返回的数据类型是一个xhr
+            error: function (xhr) {
+                alert("网络连接失败!" + xhr.status);
+            }
+        });
+    });
+</script>
+</html>

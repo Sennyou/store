@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+    <title>注册</title>
+    <link href="layui/css/layui.css" rel="stylesheet">
+    <script src="jquery-3.4.1.min.js"></script>
+</head>
+<script src="layui/layui.js"></script>
+<body>
+<div style="background-image:url('image/p1.jpg');overflow: hidden;height: 1000px;width: 100%">
+    <div style="width: max-content; height: max-content; background: rgba(255,255,255,0.9);margin: 250px auto auto 100px;border-radius: 10%">
+        <div style="padding: 50px">
+            <p style="font-size: 35px;font-weight: bold;color:pink;text-align: center">会 员 注 册</p>
+        </div>
+        <form id="form-reg" action="" class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-inline">
+                    <input id="username" autocomplete="off" class="layui-input" lay-verify="required" name="username"
+                           placeholder="请输入用户名"
+                           required type="text">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-inline">
+                    <input id="password" autocomplete="off" class="layui-input" lay-verify="required" name="password"
+                           placeholder="请输入密码" required type="password">
+                </div>
+                <div class="layui-form-mid layui-word-aux">叽里呱啦</div>
+            </div>
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">确认密码</label>
+                <div class="layui-input-inline">
+                    <input autocomplete="off" class="layui-input" lay-verify="required" name="verify_password"
+                           placeholder="请再次输入密码" required type="password">
+                </div>
+                <div class="layui-form-mid layui-word-aux">叽里呱啦</div>
+            </div>
+
+            <div class="layui-row">
+                <div class="layui-col-md6"> &nbsp</div>
+                <div class="layui-col-md6">
+                    <input class="layui-btn" id="btn-reg" type="button" value="reg">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+<script>
+    $("#btn-reg").click(function () {
+        console.log($("#form-reg").serialize());
+        $.ajax({
+            url: '/user/reg',
+            type: 'POST',
+            data: $("#form-reg").serialize(),
+            success: function (json) {
+                console.log(json)
+                if (json.state == 200) {
+                    alert("注册成功!");
+                    location.href="login.html";
+                } else {
+                    alert("注册失败! state:" + json.state + "   message=" + json.message);
+                }
+            },//当失败时,返回的数据类型是一个xhr
+            error: function (xhr) {
+                alert("网络连接失败!" + xhr.status);
+            }
+        });
+    });
+
+
+</script>
+</html>

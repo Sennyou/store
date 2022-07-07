@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/updatePassword.css">
     <link rel="stylesheet" href="css/updateUserInfo.css">
     <script src="jquery-3.4.1.min.js"></script>
+    <script src="jquery.cookie.js"></script>
 </head>
 <script>
     function verifypassword() {
@@ -71,7 +72,7 @@
                     <div id="ok"></div>
                 </div>
                 <div class="button">
-                    <input type="button" class="button" value="确认">
+                    <input id="changePassword" type="button" class="button" value="确认">
                 </div>
             </form>
         </div>
@@ -79,23 +80,22 @@
         <div class="elec userinfo" style="display: none">
             <form class="update-form" >
                 <div class="input">
-                    <input type="text" name="phone" placeholder="手机号">
+                    <input id="phone" type="text" name="phone" placeholder="手机号">
                 </div>
                 <div class="input">
-                    <input type="text" name="emial" placeholder="邮箱">
+                    <input id="email" type="text" name="emial" placeholder="邮箱">
                 </div>
                 <div class="button">
-                    <input type="button" class="button" value="确认">
+                    <input id="changeUserInfo" type="button" class="button" value="确认">
                 </div>
             </form>
         </div>
         <!--更换头像-->
         <div class="elec avatar" style="display: none">
-            <form class="update-form" action="/user/updateUserAvater" method="post"
-                  enctype="multipart/form-data">
+            <form class="update-form" >
                 <label>上传头像:</label>
                 <input type="file" name="file">
-                <input id="avatarUpload" type="submit" value="上传">
+                <input id="avatarUpload" type="button" value="上传">
                 <img id="img-avatar" src="image/logo.png" style="height: 150px;width: 150px" alt="">
             </form>
         </div>
@@ -104,7 +104,108 @@
 </div>
 
 </body>
+<script type="application/javascript">
+    $(document).ready(function (){
+        <!--    在页面加载时,取出cookie中的图片地址,将其设置到用户头像img上-->
+        let avatar = $.cookie("avatar");
+        $("#img-avatar").attr("src",avatar);
+        // 将用户信息填充到表单上
+        $.ajax({
+            url: '/user/findUserByUid',
+            type: 'GET',
+            data: "",
+            //dataType: "json",
+            success: function (json) {
+                if (json.state == 200) {
+                    alert("获取成功!" + json.data);
+                    let phone = json.data.phone;
+                    let email = json.data.emial;
+                    $("#phone").val(phone);
+                    $("#email").val(email);
+                //    如果我们这里有性别
+                //     let radio = json.data.gander == 0 ? $("#female") : $("#male");
+                //    选择器.prop(属性,值),给某个元素添加某个属性和值
+                //     radio.prop("checked","checked");
+                } else {
+                    alert("用户不存在! state:" + json.state + "  message=" + json.message);
+                }
+            },//当失败时,返回的数据类型是一个xhr
+            error: function (xhr) {
+                alert("网络连接失败!" + xhr.status);
+            }
+        });
+    });
+    //上传头像的ajax点击事件
+    $("#avatarUpload").click(function () {
+        console.log($(".avatar .update-form")[0]);
+        $.ajax({
+            url: '/user/updateUserAvatar',
+            type: 'POST',
+            data: new FormData($(".avatar .update-form")[0]),//[],里是表单下的第几个元素
+            processData: false, //处理数据的形式,关闭处理数据
+            contentType: false,//提交数据的形式,关闭
+            //dataType: "json",
+            success: function (json) {
+                let jsonResult;
+                if (json.state == 200) {
+                    alert("头像修改成功!" + json.data);
+                    //将服务器返回的头像地址设置到img的src属性上
+                    //attr(属性,值)给某个属性设置某个值
+                    $("#img-avatar").attr("src",json.data);
+                    //修改当前cookie中的avatar
+                    $.cookie("avatar",json.data,{expires:7});
+                } else {
+                    //jsonResult = jQuery.parseJSON(json); 在定义dataType="json"后,就不需要这个了
+                    //其实本身也不需要,他自动识别类型
+                    alert("上传失败! state:" + json.state + "  message=" + json.message);
+                }
+            },//当失败时,返回的数据类型是一个xhr
+            error: function (xhr) {
+                alert("网络连接失败!" + xhr.status);
+            }
+        });
+    });
 
+//    更改密码的ajax点击事件
+    $("#changePassword").click(function (){
+        $.ajax({
+                url: '/user/changePassword',
+                type: 'POST',
+                data: $(".password .update-form").serialize(),
+                success: function (json) {
+                if (json.state == 200) {
+                    alert("修改成功!" + json.data);
+                } else {
+                    alert("修改失败! state:" + json.state + "  message=" + json.message);
+                }
+            },//当失败时,返回的数据类型是一个xhr
+            error: function (xhr) {
+                alert("网络连接失败!" + xhr.status);
+            }
+        });
+    });
+
+//修改用户信息的ajax点击事件
+    $("#changeUserInfo").click(function (){
+        $.ajax({
+            url: '/user/updateUserInfo',
+            type: 'POST',
+            data: $(".userinfo .update-form").serialize(),
+            success: function (json) {
+                let jsonResult;
+                if (json.state == 200) {
+                    alert("修改成功!" + json.data);
+                    location.href = "index.html";
+                } else {
+                    alert("修改失败! state:" + json.state + "  message=" + json.message);
+                }
+            },//当失败时,返回的数据类型是一个xhr
+            error: function (xhr) {
+                alert("网络连接失败!" + xhr.status);
+            }
+        });
+    });
+</script>
 <script type="text/javascript">
     window.onload = function () {
         let obtn = document.getElementsByTagName("li");

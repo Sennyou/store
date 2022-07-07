@@ -5,6 +5,7 @@
     <title>Title</title>
     <link rel="stylesheet" href="css/login.css">
     <script src="jquery-3.4.1.min.js"></script>
+    <script src="jquery.cookie.js"></script>
 </head>
 <body>
 <div class="window">
@@ -38,6 +39,8 @@
                 if (json.state == 200) {
                     alert("登录成功!" + json.data);
                     location.href = "index.html";
+                    //保存数据到cookie
+                    $.cookie("avatar",json.data.avatar,{expires:7});
                 } else {
                     //jsonResult = jQuery.parseJSON(json); 在定义dataType="json"后,就不需要这个了
                     //其实本身也不需要,他自动识别类型

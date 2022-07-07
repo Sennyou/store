@@ -89,7 +89,7 @@ public class UserController extends BaseController{
      * @param file 用户上传的头像文件
      * @return 返回用户头像在项目中的地址
      */
-    @RequestMapping("updateUserAvater")
+    @RequestMapping("updateUserAvatar")
     public JsonResult<String> updateUserAvatar(HttpSession session,
                                                @RequestParam("file")MultipartFile file){
         if(file.isEmpty()){
@@ -104,7 +104,8 @@ public class UserController extends BaseController{
             throw new fileTypeErrorException("文件类型错误");
         }
         //获取到file在电脑里的实际路径
-        String parent = session.getServletContext().getRealPath("upload");
+        //String parent = session.getServletContext().getRealPath("upload");
+        String parent = "E:\\javapj\\store\\avatar"; //将文件保存在这个位置
         //指向这个路径,并看看是否存在
         File dir = new File(parent);
         if(!dir.exists()){
@@ -130,7 +131,7 @@ public class UserController extends BaseController{
 
         Integer uid = getUidFromSession(session);
         String username = getUsernameFromSession(session);
-        String avatar = "/upload/"+filename;
+        String avatar = "/upload/"+filename; //文件的虚拟地址
         System.out.println("avatar = "+avatar);
         System.out.println(uid);
         System.out.println(username);

@@ -140,10 +140,29 @@ public class UserServiceImpl implements IUserService {
             throw new UidNotExistException("用户不存在");
         }
         User returnUser=new User();
+        returnUser.setUid(user.getUid());
+        returnUser.setUsername(user.getUsername());
+        returnUser.setAvatar(user.getAvatar());
         returnUser.setPhone(user.getPhone());
         returnUser.setEmial(user.getEmial());
         returnUser.setGender(user.getGender());
         return returnUser;
+    }
+
+    @Override
+    public void updateUserAvatar(int uid, String avatar, String modifiedUsername) {
+        User user;
+        try{
+            user=userMapper.findUserByUid(uid);
+        }catch (Exception e){
+            throw new FindException("数据库查询出错");
+        }
+        if(user==null||user.getIs_delete()==1){
+            throw new UidNotExistException("用户不存在");
+        }
+        if(userMapper.updateUserAvatar(uid,avatar,modifiedUsername,new Date())!=1){
+            throw new UpdateException("更新数据出错");
+        }
     }
 
     /**

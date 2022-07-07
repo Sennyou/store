@@ -1,3 +1,18 @@
+div{
+    border: none;
+    outline: none;
+}
+a{
+    text-decoration: none;
+    list-style: none;
+}
+li{
+    list-style: none;
+}
+ul{
+    padding: 0;
+    margin: 0;
+}
 body {
     background-image: url("../image/login_background.jpg");
     background-repeat: no-repeat;
@@ -10,7 +25,7 @@ body {
     height: 400px;
     position: absolute;
     top: 64px;
-    right: 0px;
+    right: 0;
     background-color: white;
     border-radius: 10% 0 0 10%;
 }

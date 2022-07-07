@@ -53,4 +53,13 @@ public class UserServiceTest {
              System.out.println(e.getMessage());
          }
      }
+
+    @Test
+    public void updateUserAvatar(){
+        String avatar="C:\\Users\\HP\\Desktop\\照片文档\\涩图\\98776644_p0";
+        userService.updateUserAvatar(4,avatar,"2022年7月2日15:05:16");
+        System.out.println(userService.findUserByUid(4));
+    }
+
+
 }

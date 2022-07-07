@@ -18,4 +18,5 @@ class StoreApplicationTests {
     void getConnection() throws SQLException {
         System.out.println(dataSource.getConnection());
     }
+
 }

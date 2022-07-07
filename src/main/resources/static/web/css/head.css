@@ -1,0 +1,102 @@
+
+.w{
+    width: 1200px;
+    margin: auto;
+}
+
+.head {
+    height: 80px;
+    background-color: rgb(250, 250, 251);
+}
+
+.head .img{
+    float: left;
+    width: 300px;
+    height: 80px;
+}
+.head .daohang{
+    float: left;
+    width: 380px;
+    margin-left: 30px;
+}
+.head .input{
+    height: 64px;
+    float: left;
+    width: 360px;
+    padding: 16px 0 0 0;
+}
+.head .input input{
+    float: left;
+    height: 40px;
+    width: 270px;
+    border: 0;
+    color: #00a4ff;
+    font-size: 14px;
+    padding-left: 15px;
+    margin: auto 0;
+    background-color: rgb(250, 250, 251);
+}
+.head .input input:focus{
+    border: none;
+    outline: none;
+    background-color: rgb(227, 229, 231);
+}
+.head .input .button{
+    float: left;
+    height: 40px;
+    width: 40px;
+    background-image: url("../image/search.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 40px 40px;
+    border: none;
+}
+.head .input .button:active{
+    background-image: url("../image/search2.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 40px 40px;
+}
+.head .userinfo{
+    float: left;
+    width: 100px;
+    height: 80px;
+}
+.head .daohang div{
+    float: left;
+    margin-left: 30px;
+    height: 80px;
+}
+.daohang div a{
+    height: 30px;
+    display: block;
+    margin: 26px auto;
+    text-decoration: none;
+    text-align: center;
+    color: black;
+    font-size: 18px;
+}
+.head .img div{
+    float: left;
+}
+.userinfo a{
+    display: block;
+    height: 30px;
+    margin: 26px auto;
+    text-decoration: none;
+    text-align: center;
+    color: black;
+}
+
+.daohang div a:hover{
+    border-bottom: 2px solid #00a4ff;
+    color:#00a4ff
+}
+.head .userinfo a:hover{
+    border-bottom: 2px solid #00a4ff;
+    color:#00a4ff
+}
+.head .userinfo a:active{
+    font-size: 15px;
+    font-weight: bolder;
+}

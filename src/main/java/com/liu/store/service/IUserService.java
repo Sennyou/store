@@ -27,14 +27,22 @@ public interface IUserService {
 
     /**
      * 根据用户uid更新用户手机号和邮箱
-     * @param User 封装用户修改数据
+     * @param user 封装用户修改数据
      */
     void updateUserInfo(User user);
 
     /**
      * 通过uid查找用户数据
-     * @param uid
-     * @return
+     * @param uid 用户uid
+     * @return 返回用户信息,封装为user,找不到返回null
      */
     User findUserByUid(int uid);
+
+    /**
+     * 根据uid修改用户头像
+     * @param uid 用户uid
+     * @param avatar 用户头像路径
+     * @param modifiedUsername 修改人用户名
+     */
+    void updateUserAvatar(int uid,String avatar,String modifiedUsername);
 }

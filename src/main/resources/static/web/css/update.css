@@ -1,0 +1,43 @@
+a{
+    text-decoration: none;
+    list-style: none;
+}
+body{
+    background-image: url("../image/login_background.jpg");
+    background-repeat: no-repeat;
+    background-size: 1576px 884px;
+}
+.box{
+    width: 900px;
+    height: 500px;
+    margin: 60px auto auto auto;
+    background-color: white;
+    border-radius: 30px;
+    overflow: hidden;
+}
+.content{
+    width: 575px;
+    height: 375px;
+    margin: 80px auto 0 auto;
+    background-color: white;
+}
+.ele{
+    height: 50px;
+}
+.ele ul{
+    list-style: none;
+}
+.ele ul li{
+    float: left;
+    padding: 5px 10px;
+    margin-right: 30px;
+    border-radius: 25px;
+    text-align: center;
+}
+.active{
+    background-color: rgb(0, 174, 236);
+    color: white;
+}
+.active a{
+    color: white;
+}

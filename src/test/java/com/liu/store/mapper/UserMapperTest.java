@@ -59,4 +59,11 @@ public class UserMapperTest {
         System.out.println(userMapper.updateUserInfo(user));
         System.out.println(userMapper.findUserByUid(4));
     }
+
+    @Test
+    public void updateUserAvatar(){
+        String avatar="C:\\Users\\HP\\Desktop\\照片文档\\涩图\\98776644_p0";
+        System.out.println(userMapper.updateUserAvatar(4,avatar,"星期六",new Date()));
+        System.out.println(userMapper.findUserByUid(4));
+    }
 }

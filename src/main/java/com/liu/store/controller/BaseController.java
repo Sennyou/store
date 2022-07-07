@@ -1,5 +1,6 @@
 package com.liu.store.controller;
 
+import com.liu.store.controller.ex.*;
 import com.liu.store.service.ex.*;
 import com.liu.store.util.JsonResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,7 +11,8 @@ public class BaseController {
     public static final int OK = 200;
 
 //    项目中产生的属于ServiceException的异常,都会被拦截到这里进行处理,其结果直接返回给前端
-    @ExceptionHandler(ServiceException.class)
+//    又添加了fileUploadException的异常处理
+    @ExceptionHandler({ServiceException.class, fileUploadException.class})
     public JsonResult<Void> handleException(Throwable e){
         JsonResult<Void> result = new JsonResult<>(e);
         if(e instanceof UsernameDuplicatedException){
@@ -40,6 +42,22 @@ public class BaseController {
         else if(e instanceof UpdateException){
             result.setState(9001);
             result.setMessage(e.getMessage());
+        }
+        else if(e instanceof fileOverSizeException){
+            result.setState(9000);
+            result.setMessage("文件过大");
+        }
+        else if(e instanceof fileIOException){
+            result.setState(9001);
+            result.setMessage("文件读写异常");
+        }
+        else if(e instanceof fileStateException){
+            result.setState(9002);
+            result.setMessage("文件状态异常");
+        }
+        else if(e instanceof fileTypeErrorException){
+            result.setState(9003);
+            result.setMessage("文件类型错误");
         }
         return result;
 

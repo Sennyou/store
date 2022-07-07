@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/update.css">
+    <link rel="stylesheet" href="css/head.css">
+    <link rel="stylesheet" href="css/updatePassword.css">
+    <link rel="stylesheet" href="css/updateUserInfo.css">
+    <script src="jquery-3.4.1.min.js"></script>
+</head>
+<script>
+    function verifypassword() {
+        let password = $("#password").val();
+        let verPassword = $("#verPassword").val();
+        if (password == verPassword) {
+            $("#ok").removeClass("error");
+            $('#ok').addClass("ok");
+        } else {
+            $("#ok").removeClass("ok");
+            $('#ok').addClass("error");
+        }
+    }
+</script>
+<body>
+<!-- #include file="b.html" -->
+<div class="head w">
+    <div class="img">
+        <div style="border: none;outline: none;height: 80px">
+            <img src="image/logo.png" height="80px" width="80px" alt="">
+        </div>
+        <div>
+            <img src="image/logo_wenzi.png" width="200px" height="35px" style="margin: 20px auto auto 10px" alt="">
+        </div>
+    </div>
+    <div class="daohang">
+        <div><a href="index.html">首页</a></div>
+        <div><a href="">购物车</a></div>
+        <div><a href="">收藏</a></div>
+    </div>
+
+    <div class="input">
+        <input type="text" name="findValue" placeholder="请输入关键字">
+        <button class="button"></button>
+    </div>
+    <div class="userinfo">
+        <a href="">登录/注册</a>
+    </div>
+
+</div>
+<div class="box">
+    <div class="content">
+        <div class="ele">
+            <ul>
+                <li class="active"><a href="#">修改密码</a></li>
+                <li><a href="#">修改用户信息</a></li>
+                <li><a href="#">更换头像</a></li>
+            </ul>
+        </div>
+        <!--修改密码-->
+        <div class="elec password" style="display: block">
+            <form class="update-form">
+                <div class="input">
+                    <input type="text" name="oldPassword" placeholder="原密码">
+                </div>
+                <div class="input">
+                    <input type="password" name="newPassword" id="password" placeholder="新密码">
+                </div>
+                <div class="input">
+                    <input type="password" id="verPassword" placeholder="确认密码" onchange="verifypassword()">
+                    <div id="ok"></div>
+                </div>
+                <div class="button">
+                    <input type="button" class="button" value="确认">
+                </div>
+            </form>
+        </div>
+        <!--修改用户信息-->
+        <div class="elec userinfo" style="display: none">
+            <form class="update-form" >
+                <div class="input">
+                    <input type="text" name="phone" placeholder="手机号">
+                </div>
+                <div class="input">
+                    <input type="text" name="emial" placeholder="邮箱">
+                </div>
+                <div class="button">
+                    <input type="button" class="button" value="确认">
+                </div>
+            </form>
+        </div>
+        <!--更换头像-->
+        <div class="elec avatar" style="display: none">
+            <form class="update-form" action="/user/updateUserAvater" method="post"
+                  enctype="multipart/form-data">
+                <label>上传头像:</label>
+                <input type="file" name="file">
+                <input id="avatarUpload" type="submit" value="上传">
+                <img id="img-avatar" src="image/logo.png" style="height: 150px;width: 150px" alt="">
+            </form>
+        </div>
+
+    </div>
+</div>
+
+</body>
+
+<script type="text/javascript">
+    window.onload = function () {
+        let obtn = document.getElementsByTagName("li");
+        let oElec = document.getElementsByClassName("elec");
+
+        let i = 0;
+
+        for (i = 0; i < obtn.length; i++) {
+            obtn[i].index = i;//记录索引值
+            obtn[i].onclick = function () {
+                for (let j = 0; j < obtn.length; j++) {
+                    obtn[j].className = "";
+                    oElec[j].style.display = 'none';
+                }
+                this.className = "active";
+                oElec[this.index].style.display = "block";
+                console.log("1")
+            };
+        }
+    };
+</script>
+
+</html>

@@ -43,7 +43,7 @@ public class UserServiceImpl implements IUserService {
 //        补充用户信息,补充字段:is_delete=0,createdUser,createdTime,modified_user,modified_time
         user.setIs_delete(0);
         user.setCreated_user(username);
-        user.setCreated_user(username);
+        user.setModified_user(username);
         Date date=new Date();
         user.setCreated_time(date);
         user.setModified_time(date);

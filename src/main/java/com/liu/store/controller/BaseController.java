@@ -59,6 +59,10 @@ public class BaseController {
             result.setState(9003);
             result.setMessage("文件类型错误");
         }
+        else if(e instanceof AddressCountLimitException){
+            result.setState(4001);
+            result.setMessage("用户地址数数目到达上限");
+        }
         return result;
 
     }

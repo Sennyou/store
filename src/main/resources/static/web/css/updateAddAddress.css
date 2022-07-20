@@ -1,0 +1,32 @@
+.addAddress form{
+    padding-left: 50px;
+}
+.addAddress div{
+    margin-top: 10px;
+}
+.addAddress input{
+    width: 180px;
+    height: 20px;
+}
+
+.addAddress .style_2 select{
+    margin-right: 20px;
+    width: 150px;
+    height: 30px;
+    text-align: center;
+}
+.addAddress .style_2 input{
+    margin-right: 20px;
+}
+.addAddress .style_3 input{
+    height: 60px;
+    width: 90%;
+}
+.addAddress .button{
+    margin-top: 0;
+    margin-left: 425px;
+}
+.addAddress .button input{
+    width: 50px;
+    height: 25px;
+}

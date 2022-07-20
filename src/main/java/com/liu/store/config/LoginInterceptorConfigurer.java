@@ -16,6 +16,6 @@ public class LoginInterceptorConfigurer implements WebMvcConfigurer {
         //注册白名单,这个方法既可以传入这样一个一个字符串,也可以传入一个List数组
         //这个起始目录是从static目录下开始的
         registration.excludePathPatterns("/web/login.html","/web/index.html","/web/register.html",
-                "/web/**/*.css","/web/**.js","/web/**/*.js","/web/image/**","//user/reg","//user/login");
+                "/web/**/*.css","/web/**.js","/web/**/*.js","/web/image/**","//user/reg","//user/login","/districts/**");
     }
 }

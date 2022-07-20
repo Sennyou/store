@@ -14,6 +14,11 @@ import java.util.Date;
 public class AddressServiceImpl implements IAddressService {
     @Autowired
     private AddressMapper addressMapper;
+
+    @Autowired
+    private DistrictServiceImpl districtService;
+
+//    从配置文件中读取最大地址数目
     @Value("${user.address.max-count}")
     private int MAX_ADDRESS_COUNT = 20;
     @Override
@@ -31,6 +36,11 @@ public class AddressServiceImpl implements IAddressService {
         address.setCreated_time(new Date());
         address.setModified_user(username);
         address.setModified_time(new Date());
+//        为code查询name,并写入address
+        //address.setProvinceName(districtService.getNameByCode(address.getProvinceCode()));
+        address.setCityName(districtService.getNameByCode(address.getCityCode()));
+        address.setAreaName(districtService.getNameByCode(address.getAreaCode()));
+
         if(addressMapper.insert(address)!=1){
             throw new InsertException("新建收货地址发生异常");
         }

@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="css/head.css">
     <link rel="stylesheet" href="css/updatePassword.css">
     <link rel="stylesheet" href="css/updateUserInfo.css">
+    <link rel="stylesheet" href="css/updateAddAddress.css">
     <script src="jquery-3.4.1.min.js"></script>
     <script src="jquery.cookie.js"></script>
+    <script src="changeSelect.js"></script>
 </head>
 <script>
     function verifypassword() {
@@ -56,6 +58,7 @@
                 <li class="active"><a href="#">修改密码</a></li>
                 <li><a href="#">修改用户信息</a></li>
                 <li><a href="#">更换头像</a></li>
+                <li><a href="#">新建收货地址</a></li>
             </ul>
         </div>
         <!--修改密码-->
@@ -78,7 +81,7 @@
         </div>
         <!--修改用户信息-->
         <div class="elec userinfo" style="display: none">
-            <form class="update-form" >
+            <form class="update-form">
                 <div class="input">
                     <input id="phone" type="text" name="phone" placeholder="手机号">
                 </div>
@@ -92,11 +95,50 @@
         </div>
         <!--更换头像-->
         <div class="elec avatar" style="display: none">
-            <form class="update-form" >
+            <form class="update-form">
                 <label>上传头像:</label>
                 <input type="file" name="file">
                 <input id="avatarUpload" type="button" value="上传">
                 <img id="img-avatar" src="image/logo.png" style="height: 150px;width: 150px" alt="">
+            </form>
+        </div>
+        <!--        添加收货地址-->
+        <div class="elec addAddress" style="display: none">
+            <form class="update-form">
+                <div class="style_1">
+                    <input type="text" id="addAddress_name" name="name" placeholder="请输入收货人姓名">
+                </div>
+
+                <div class="style_2">
+                    <select title="省" id="addAddress_province" name="provinceCode">
+                        <option value="0">< --- 请选择 --- ></option>
+                    </select>
+                    <select id="addAddress_city" name="cityCode">
+                        <option>北京市</option>
+                    </select>
+                    <select id="addAddress_area" name="areaCode">
+                        <option>朝阳区</option>
+                    </select>
+                </div>
+
+                <div class="style_3">
+                    <input type="text" id="addAddress_address" name="address" placeholder="输入详细收货地址,小区名称,门牌号等">
+                </div>
+
+                <div class="style_1">
+                    <input type="text" id="addAddress_zip" name="zip" placeholder="请输入邮政编码">
+                </div>
+
+                <div class="style_2">
+                    <input type="text" id="addAddress_phone" name="phone" placeholder="请输入手机号">
+                    <input type="text" id="addAddress_tel" name="tel" placeholder="请输入固定电话号码">
+                </div>
+                <div class="style_1">
+                    <input type="text" id="addAddress_tag" name="tag" placeholder="请输入地址类型,如:家,学校或公司">
+                </div>
+                <div class="button">
+                    <input type="button" id="addAddress_commit" value="提交">
+                </div>
             </form>
         </div>
 
@@ -105,10 +147,10 @@
 
 </body>
 <script type="application/javascript">
-    $(document).ready(function (){
+    $(document).ready(function () {
         <!--    在页面加载时,取出cookie中的图片地址,将其设置到用户头像img上-->
         let avatar = $.cookie("avatar");
-        $("#img-avatar").attr("src",avatar);
+        $("#img-avatar").attr("src", avatar);
         // 将用户信息填充到表单上
         $.ajax({
             url: '/user/findUserByUid',
@@ -122,10 +164,10 @@
                     let email = json.data.emial;
                     $("#phone").val(phone);
                     $("#email").val(email);
-                //    如果我们这里有性别
-                //     let radio = json.data.gander == 0 ? $("#female") : $("#male");
-                //    选择器.prop(属性,值),给某个元素添加某个属性和值
-                //     radio.prop("checked","checked");
+                    //    如果我们这里有性别
+                    //     let radio = json.data.gander == 0 ? $("#female") : $("#male");
+                    //    选择器.prop(属性,值),给某个元素添加某个属性和值
+                    //     radio.prop("checked","checked");
                 } else {
                     alert("用户不存在! state:" + json.state + "  message=" + json.message);
                 }
@@ -134,6 +176,12 @@
                 alert("网络连接失败!" + xhr.status);
             }
         });
+    //    加载addAddress中的选项
+        addProvince();
+    //    添加对addAddress_province值改变的监听事件
+        $("#addAddress_province").change(whenChangeProvince);
+    //    添加对addAddress_city值改变的监听事件
+        $("#addAddress_city").change(whenChangeCity);
     });
     //上传头像的ajax点击事件
     $("#avatarUpload").click(function () {
@@ -151,9 +199,9 @@
                     alert("头像修改成功!" + json.data);
                     //将服务器返回的头像地址设置到img的src属性上
                     //attr(属性,值)给某个属性设置某个值
-                    $("#img-avatar").attr("src",json.data);
+                    $("#img-avatar").attr("src", json.data);
                     //修改当前cookie中的avatar
-                    $.cookie("avatar",json.data,{expires:7});
+                    $.cookie("avatar", json.data, {expires: 7});
                 } else {
                     //jsonResult = jQuery.parseJSON(json); 在定义dataType="json"后,就不需要这个了
                     //其实本身也不需要,他自动识别类型
@@ -166,13 +214,13 @@
         });
     });
 
-//    更改密码的ajax点击事件
-    $("#changePassword").click(function (){
+    //    更改密码的ajax点击事件
+    $("#changePassword").click(function () {
         $.ajax({
-                url: '/user/changePassword',
-                type: 'POST',
-                data: $(".password .update-form").serialize(),
-                success: function (json) {
+            url: '/user/changePassword',
+            type: 'POST',
+            data: $(".password .update-form").serialize(),
+            success: function (json) {
                 if (json.state == 200) {
                     alert("修改成功!" + json.data);
                 } else {
@@ -185,8 +233,8 @@
         });
     });
 
-//修改用户信息的ajax点击事件
-    $("#changeUserInfo").click(function (){
+    //修改用户信息的ajax点击事件
+    $("#changeUserInfo").click(function () {
         $.ajax({
             url: '/user/updateUserInfo',
             type: 'POST',
@@ -198,6 +246,30 @@
                     location.href = "index.html";
                 } else {
                     alert("修改失败! state:" + json.state + "  message=" + json.message);
+                }
+            },//当失败时,返回的数据类型是一个xhr
+            error: function (xhr) {
+                alert("网络连接失败!" + xhr.status);
+            }
+        });
+    });
+
+//    新建收货地址的ajax点击事件
+    $("#addAddress_commit").click(function (){
+        if($("addAddress_province").val()==0 || $("addAddress_city").val()==0 ||$("addAddress_area").val()==0)
+            return;
+        console.log(province[$("#addAddress_province").val()]);
+        console.log($(".addAddress .update-form").serialize()+"&provinceName="+province[$("#addAddress_province").val()]);
+        $.ajax({
+            url: '/address/new_address',
+            type: 'POST',
+            data: $(".addAddress .update-form").serialize()+"&provinceName="+province[$("#addAddress_province").val()],
+            success: function (json) {
+                let jsonResult;
+                if (json.state == 200) {
+                    alert("成功添加收货地址!" + json.data);
+                } else {
+                    alert("添加失败! state:" + json.state + "  message=" + json.message);
                 }
             },//当失败时,返回的数据类型是一个xhr
             error: function (xhr) {

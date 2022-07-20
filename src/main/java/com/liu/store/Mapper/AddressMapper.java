@@ -19,4 +19,6 @@ public interface AddressMapper {
      * @return 用户收货地址数目
      */
     Integer countUserAddressByUid(int uid);
+
+
 }

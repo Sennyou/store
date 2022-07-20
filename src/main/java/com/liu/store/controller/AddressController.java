@@ -20,6 +20,7 @@ public class AddressController extends BaseController{
 
     @RequestMapping("new_address")
     public JsonResult<Void> addNewAddress(Address address, HttpSession session){
+        System.out.println(address);
         Integer uid = getUidFromSession(session);
         String username = getUsernameFromSession(session);
         addressService.insert(uid,username,address);

@@ -1,5 +1,6 @@
 package com.liu.store.controller;
 
+import com.liu.store.controller.Strategy_Pattern_dealException.Exception_Context;
 import com.liu.store.controller.ex.*;
 import com.liu.store.service.ex.*;
 import com.liu.store.util.JsonResult;
@@ -15,58 +16,8 @@ public class BaseController {
     @ExceptionHandler({ServiceException.class, fileUploadException.class})
     public JsonResult<Void> handleException(Throwable e){
         JsonResult<Void> result = new JsonResult<>(e);
-        if(e instanceof UsernameDuplicatedException){
-            result.setState(4000);
-            result.setMessage("用户名被占用");
-        }
-        else if(e instanceof InsertException){
-            result.setState(5000);
-            result.setMessage("注册时产生未知异常");
-        }
-        else if(e instanceof UsernameNotExistException){
-            result.setState(7000);
-            result.setMessage(e.getMessage());
-        }
-        else if(e instanceof PasswordErrorException){
-            result.setState(6000);
-            result.setMessage(e.getMessage());
-        }
-        else if(e instanceof FindException){
-            result.setState(9000);
-            result.setMessage(e.getMessage());
-        }
-        else if(e instanceof UidNotExistException){
-            result.setState(7001);
-            result.setMessage(e.getMessage());
-        }
-        else if(e instanceof UpdateException){
-            result.setState(9001);
-            result.setMessage(e.getMessage());
-        }
-        else if(e instanceof fileOverSizeException){
-            result.setState(9000);
-            result.setMessage("文件过大");
-        }
-        else if(e instanceof fileIOException){
-            result.setState(9001);
-            result.setMessage("文件读写异常");
-        }
-        else if(e instanceof fileStateException){
-            result.setState(9002);
-            result.setMessage("文件状态异常");
-        }
-        else if(e instanceof fileTypeErrorException){
-            result.setState(9003);
-            result.setMessage("文件类型错误");
-        }
-        else if(e instanceof AddressCountLimitException){
-            result.setState(4001);
-            result.setMessage("用户地址数数目到达上限");
-        }
-        else if(e instanceof AddressNotExistException){
-            result.setState(7002);
-            result.setMessage("收货地址不存在");
-        }
+        System.out.println("the class of exception is: "+e.getClass().toString());
+        Exception_Context.set(e.getClass().toString(),result);
         return result;
 
     }

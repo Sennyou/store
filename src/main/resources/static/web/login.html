@@ -41,6 +41,8 @@
                     location.href = "index.html";
                     //保存数据到cookie
                     $.cookie("avatar",json.data.avatar,{expires:7});
+                    $.cookie("uid",json.data.uid,{expires:7});
+                    $.cookie("username",json.data.username,{expires:7});
                 } else {
                     //jsonResult = jQuery.parseJSON(json); 在定义dataType="json"后,就不需要这个了
                     //其实本身也不需要,他自动识别类型

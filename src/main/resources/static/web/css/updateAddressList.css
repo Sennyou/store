@@ -1,0 +1,28 @@
+.addressList{
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+.addressList table{
+    border: 1px solid #DCDCDC;
+    width: 575px;
+    height: 320px;
+    text-align: center;
+    padding: 0;
+    border-collapse: collapse;
+}
+.addressList table tr,td,th{
+    padding: 0;
+}
+.address_table thead{
+    background-color: #DCDCDC;
+    font-weight: bolder;
+}
+.address_table td,th{
+    height: 40px;
+}
+.addressList table tbody td{
+    border-bottom: 1px solid #DCDCDC;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

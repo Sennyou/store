@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/updatePassword.css">
     <link rel="stylesheet" href="css/updateUserInfo.css">
     <link rel="stylesheet" href="css/updateAddAddress.css">
+    <link rel="stylesheet" href="css/updateAddressList.css">
     <script src="jquery-3.4.1.min.js"></script>
     <script src="jquery.cookie.js"></script>
     <script src="changeSelect.js"></script>
@@ -58,7 +59,7 @@
                 <li class="active"><a href="#">修改密码</a></li>
                 <li><a href="#">修改用户信息</a></li>
                 <li><a href="#">更换头像</a></li>
-                <li><a href="#">新建收货地址</a></li>
+                <li><a href="#">收货地址</a></li>
             </ul>
         </div>
         <!--修改密码-->
@@ -103,21 +104,21 @@
             </form>
         </div>
         <!--        添加收货地址-->
-        <div class="elec addAddress" style="display: none">
+        <div class="addAddress" style="display: none">
             <form class="update-form">
                 <div class="style_1">
                     <input type="text" id="addAddress_name" name="name" placeholder="请输入收货人姓名">
                 </div>
-
+                <button id="btn_returnToAddressList">返回</button>
                 <div class="style_2">
                     <select title="省" id="addAddress_province" name="provinceCode">
                         <option value="0">< --- 请选择 --- ></option>
                     </select>
                     <select id="addAddress_city" name="cityCode">
-                        <option>北京市</option>
+                        <option value="0">< --- 请选择 --- ></option>
                     </select>
                     <select id="addAddress_area" name="areaCode">
-                        <option>朝阳区</option>
+                        <option value="0">< --- 请选择 --- ></option>
                     </select>
                 </div>
 
@@ -141,7 +142,25 @@
                 </div>
             </form>
         </div>
+<!--    查看用户收货地址-->
+        <div class="elec addressList" style="display: none">
+            <table class="address_table">
+                <thead>
+                    <tr>
+                        <th>标签</th>
+                        <th>收货人</th>
+                        <th>联系电话</th>
+                        <th>收货地址</th>
+                        <th></th>
+                        <th></th>
+                        <th><button id="btn_addAddress">添加地址</button></th>
+                    </tr>
+                </thead>
+                <tbody class="address_list">
 
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -182,6 +201,8 @@
         $("#addAddress_province").change(whenChangeProvince);
     //    添加对addAddress_city值改变的监听事件
         $("#addAddress_city").change(whenChangeCity);
+    //    请求收货地址
+        showAddressList();
     });
     //上传头像的ajax点击事件
     $("#avatarUpload").click(function () {
@@ -268,6 +289,10 @@
                 let jsonResult;
                 if (json.state == 200) {
                     alert("成功添加收货地址!" + json.data);
+                    $(".address_list").empty();
+                    showAddressList();
+                    $(".addAddress").hide();
+                    $(".addressList").attr("style","display:block");
                 } else {
                     alert("添加失败! state:" + json.state + "  message=" + json.message);
                 }
@@ -277,6 +302,100 @@
             }
         });
     });
+
+//    请求收货地址并插入到网页中
+    function showAddressList(){
+        $.ajax({
+            url: '/address/',
+            type: 'GET',
+            data: "",
+            success: function (json) {
+                if(json.state==200){
+                    let addressList = $(".address_table tbody");
+                    let list = json.data;
+                    for(let i=0;i<list.length;i++) {
+                        let html = "<tr>\n" +
+                            "                        <td>#{tag}</td>\n" +
+                            "                        <td>#{name}</td>\n" +
+                            "                        <td>#{phone}</td>\n" +
+                            "                        <td>#{address}</td>\n" +
+                            "                        <td><button class='btn btn-info' data-aid='#{aid}'>修改</button></td>\n" +
+                            "                        <td><button class='btn add_del' onclick='deleteAddress(#{aid})'>删除</button></td>\n" +
+                            "                        <td><button class='btn add_def' data-aid='#{aid}'>设为默认</button></td>\n" +
+                            "                    </tr>";
+                        //使用正则表达式,替换所匹配内容,/..../g表示一个...是一个正则表达式
+                        html=html.replace(/#{name}/g, list[i].name);
+                        //使用双引号的作用与上一句等同,上一句的优点是避免转义
+                        html=html.replace("#{phone}", list[i].phone);
+                        html=html.replace("#{address}", list[i].provinceName + list[i].cityName + list[i].areaName + list[i].address);
+                        html=html.replace("#{tag}", list[i].tag);
+                        html=html.replaceAll("#{aid}", list[i].aid);
+                        addressList.append(html);
+                    }
+                    //将list列表第一行的设为默认这个按钮隐藏,因为后端传过来的list第一个是默认地址
+                    $(".add_def:eq(0)").hide();
+                }
+                else{
+                    alert("获取收货地址失败!" + json.status);
+                }
+
+            },//当失败时,返回的数据类型是一个xhr
+            error: function (xhr) {
+                alert("网络连接失败!" + xhr.status);
+            }
+        });
+    }
+
+//    添加收货地址按钮的事件,将context切换为添加页面
+    $("#btn_addAddress").click(function (){
+        $(".addressList").hide();
+        $(".addAddress").attr("style","display:block");
+    });
+//    返回到收货地址的按钮点击事件
+    $("#btn_returnToAddressList").click(function (){
+        $(".content div[style='display:block']").hide();
+        $(".addressList").attr("style","display:block");
+    });
+
+//    设置默认收货地址的点击事件
+    $(document.body).on("click",".add_def",function (){
+        console.log("def");
+        let aid = $(this).data("aid");
+        $.ajax({
+            url: '/address/setDefault',
+            type: 'GET',
+            data: "aid="+aid.toString(),
+            success: function (json) {
+                let jsonResult;
+                if (json.state == 200) {
+                    location.href="update.html";
+                } else {
+                    alert("修改失败! state:" + json.state + "  message=" + json.message);
+                }
+            },
+            error: function (xhr) {
+                alert("网络连接失败!" + xhr.status);
+            }
+        });
+    });
+
+//    设置删除按钮的点击事件
+    function deleteAddress(aid){
+        $.ajax({
+            url: '/address/'+aid+'/delete',
+            type: 'GET',
+            success: function (json) {
+                if (json.state == 200) {
+                    location.href="update.html";
+                } else {
+                    alert("修改失败! state:" + json.state + "  message=" + json.message);
+                }
+            },
+            error: function (xhr) {
+                alert("网络连接失败!" + xhr.status);
+            }
+        });
+    }
 </script>
 <script type="text/javascript">
     window.onload = function () {
@@ -294,7 +413,7 @@
                 }
                 this.className = "active";
                 oElec[this.index].style.display = "block";
-                console.log("1")
+                $(".content div[style='display:block']").hide();
             };
         }
     };

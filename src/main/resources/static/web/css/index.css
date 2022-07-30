@@ -97,13 +97,37 @@ ul{
 .head .img div{
     float: left;
 }
-.userinfo a{
+.userinfo .btn_login{
     display: block;
     height: 30px;
     margin: 26px auto;
     text-decoration: none;
     text-align: center;
     color: black;
+}
+.userinfo .btn_userinfo{
+    display: block;
+    height: 30px;
+    margin: 26px auto;
+    overflow: hidden;
+}
+.userinfo .btn_userinfo img{
+    height: 30px;
+    width: 30px;
+    float: left;
+}
+
+.userinfo .btn_userinfo span{
+    display: block;
+    height: 30px;
+    text-align: center;
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    float: left;
+    line-height: 38px;
+    margin-left: 10px;
 }
 
 .daohang div a:hover{

@@ -63,6 +63,10 @@ public class BaseController {
             result.setState(4001);
             result.setMessage("用户地址数数目到达上限");
         }
+        else if(e instanceof AddressNotExistException){
+            result.setState(7002);
+            result.setMessage("收货地址不存在");
+        }
         return result;
 
     }

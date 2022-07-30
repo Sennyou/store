@@ -28,4 +28,25 @@
     <select id="countUserAddressByUid" resultType="java.lang.Integer">
         select count(*) from address where uid = #{uid}
     </select>
+
+    <select id="findByUid" resultMap="AddressEntityMap">
+        select * from address where uid = #{uid} order by is_default DESC, created_time
+    </select>
+
+    <update id="updateNotDefault">
+        update address set is_default = 0, modified_user = #{modified_user} ,
+                           modified_time = #{modified_time}
+        where uid = #{uid} and is_default =1
+    </update>
+    <update id="updateDefault">
+        update address set is_default = 1, modified_user = #{modified_user} ,
+                           modified_time = #{modified_time}
+        where aid = #{aid}
+    </update>
+    <select id="findByAid" resultMap="AddressEntityMap">
+        select * from address where aid = #{aid}
+    </select>
+    <delete id="deleteByAid">
+        delete from address where aid = #{aid}
+    </delete>
 </mapper>

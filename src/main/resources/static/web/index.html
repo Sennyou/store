@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="css/index.css">
+    <script src="jquery-3.4.1.min.js"></script>
+    <script src="jquery.cookie.js"></script>
 </head>
 <body>
 <!--头部-->
@@ -27,7 +29,13 @@
         <button class="button"></button>
     </div>
     <div class="userinfo">
-        <a href="">登录/注册</a>
+        <a class="btn_login" id="btn_login" >登录/注册</a>
+
+        <a class="btn_userinfo" style="display: none" >
+                <img class="userAvatar" src="" alt="">
+                <span class="username"></span>
+        </a>
+
     </div>
 
 </div>
@@ -302,4 +310,25 @@
 </div>
 <!--footer end-->
 </body>
+<script>
+    $(document).ready(function (){
+        let avatar = $.cookie("avatar");
+        let username = $. cookie("username");
+        if(avatar != null && username!=null){
+            $(".btn_userinfo .userAvatar").attr("src",avatar);
+            $(".btn_userinfo .username").append(username);
+            $(".btn_login").hide();
+            $(".btn_userinfo").show();
+        }
+
+    });
+
+    $("#btn_login").click(function (){
+        location.href="login.html";
+    });
+
+    $(".btn_userinfo").click(function (){
+        location.href="update.html";
+    });
+</script>
 </html>

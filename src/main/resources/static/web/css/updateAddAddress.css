@@ -1,5 +1,6 @@
 .addAddress form{
     padding-left: 50px;
+    position: relative;
 }
 .addAddress div{
     margin-top: 10px;
@@ -29,4 +30,9 @@
 .addAddress .button input{
     width: 50px;
     height: 25px;
+}
+.addAddress .update-form>button{
+    position: absolute;
+    top: 0;
+    right: 38px;
 }

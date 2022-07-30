@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
@@ -39,5 +40,37 @@ public class AddressMapperTest {
     public void countUserAddressByUid(){
         int a=addressMapper.countUserAddressByUid(9);
         System.out.println(a);
+    }
+
+    @Test
+    public void findByUid(){
+        int uid =9;
+        List<Address> list=addressMapper.findByUid(uid);
+        for (Address a:list) {
+            System.out.println(a);
+        }
+    }
+
+    @Test
+    public void updateNotDefault(){
+        int a = addressMapper.updateNotDefault(9,"2022年7月26日20:03:41",new Date());
+        System.out.println(a);
+    }
+    @Test
+    public void updateDefault(){
+        int a = addressMapper.updateDefault(15,"2022年7月26日20:03:41",new Date());
+        System.out.println(a);
+    }
+
+    @Test
+    public void findByAid(){
+        System.out.println(addressMapper.findByAid(15));
+    }
+
+    @Test
+    public void deleteByAid(){
+        int aid = 16;
+        int n=addressMapper.deleteByAid(aid);
+        System.out.println("n = " + n);
     }
 }

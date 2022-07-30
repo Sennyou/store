@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
+import java.util.List;
 
 @SpringBootTest
 public class AddressServiceTest {
@@ -31,5 +32,22 @@ public class AddressServiceTest {
         address.setZip("100000");
         addressService.insert(uid,username,address);
 
+    }
+
+    @Test
+    public void geyByUid(){
+        List<Address> list=addressService.getByUid(9);
+        System.out.println(list);
+    }
+
+    @Test
+    public void setDefaultByAid(){
+        addressService.setDefaultByAid(9,14,"2022年7月26日21:44:00");
+    }
+
+    @Test
+    public void deleteByAid(){
+        int aid = 17;
+        addressService.deleteByAid(aid,9,"刘东博");
     }
 }

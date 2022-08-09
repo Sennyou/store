@@ -1,15 +1,18 @@
 package com.liu.store.controller;
 
-import com.liu.store.controller.Strategy_Pattern_dealException.Exception_Context;
+import com.liu.store.controller.Strategy_Pattern_dealException.StrategyHolder;
 import com.liu.store.controller.ex.*;
 import com.liu.store.service.ex.*;
 import com.liu.store.util.JsonResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 public class BaseController {
     public static final int OK = 200;
+    @Resource
+    StrategyHolder strategyHolder;
 
 //    项目中产生的属于ServiceException的异常,都会被拦截到这里进行处理,其结果直接返回给前端
 //    又添加了fileUploadException的异常处理
@@ -17,7 +20,7 @@ public class BaseController {
     public JsonResult<Void> handleException(Throwable e){
         JsonResult<Void> result = new JsonResult<>(e);
         System.out.println("the class of exception is: "+e.getClass().toString());
-        Exception_Context.set(e.getClass().toString(),result);
+        strategyHolder.setResult(result,e.getClass().toString());
         return result;
 
     }

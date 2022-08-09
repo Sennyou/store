@@ -4,21 +4,21 @@ import com.liu.store.service.ex.AddressNotExistException;
 
 public enum ExceptionEnum {
 
-    AddressCountLimitException("class com.liu.store.service.ex.AddressCountLimitException","AddressCountLimitException"),
-    AddressNotExistException("class com.liu.store.service.ex.AddressNotExistException","AddressNotExistException"),
-    FindException("class com.liu.store.service.ex.FindException","FindException"),
-    InsertException("class com.liu.store.service.ex.InsertException","InsertException"),
-    PasswordErrorException("class com.liu.store.service.ex.PasswordErrorException","PasswordErrorException"),
-    UidNotExistException("class com.liu.store.service.ex.UidNotExistException","UidNotExistException"),
-    UpdateException("class com.liu.store.service.ex.UpdateException","UpdateException"),
-    UsernameDuplicatedException("class com.liu.store.service.ex.UsernameDuplicatedException","UsernameDuplicatedException"),
-    UsernameNotExistException("class com.liu.store.service.ex.UsernameNotExistException","UsernameNotExistException"),
-    fileIOException("class com.liu.store.controller.ex.fileIOException","fileIOException"),
-    fileIsNullException("class com.liu.store.controller.ex.fileIsNullException","fileIsNullException"),
-    fileOverSizeException("class com.liu.store.controller.ex.fileOverSizeException","fileOverSizeException"),
-    fileStateException("class com.liu.store.controller.ex.fileStateException","fileStateException"),
-    fileTypeErrorException("class com.liu.store.controller.ex.fileTypeErrorException","fileTypeErrorException"),
-    fileUploadException("class com.liu.store.controller.ex.fileUploadException","fileUploadException"),
+    AddressCountLimitException("class com.liu.store.service.ex.AddressCountLimitException","strategy_AddressCountLimitException"),
+    AddressNotExistException("class com.liu.store.service.ex.AddressNotExistException","strategy_AddressNotExistException"),
+    FindException("class com.liu.store.service.ex.FindException","findException"),
+    InsertException("class com.liu.store.service.ex.InsertException","strategy_AddressNotExistException"),
+    PasswordErrorException("class com.liu.store.service.ex.PasswordErrorException","strategy_PasswordErrorException"),
+    UidNotExistException("class com.liu.store.service.ex.UidNotExistException","strategy_UidNotExistException"),
+    UpdateException("class com.liu.store.service.ex.UpdateException","strategy_UpdateException"),
+    UsernameDuplicatedException("class com.liu.store.service.ex.UsernameDuplicatedException","strategy_UsernameDuplicatedException"),
+    UsernameNotExistException("class com.liu.store.service.ex.UsernameNotExistException","strategy_UsernameNotExistException"),
+    fileIOException("class com.liu.store.controller.ex.fileIOException","strategy_fileIOException"),
+    fileIsNullException("class com.liu.store.controller.ex.fileIsNullException","strategy_fileIsNullException"),
+    fileOverSizeException("class com.liu.store.controller.ex.fileOverSizeException","strategy_fileOverSizeException"),
+    fileStateException("class com.liu.store.controller.ex.fileStateException","strategy_fileStateException"),
+    fileTypeErrorException("class com.liu.store.controller.ex.fileTypeErrorException","strategy_fileTypeErrorException"),
+    fileUploadException("class com.liu.store.controller.ex.fileUploadException","strategy_fileUploadException"),
     ;
     String className;
     String type;
